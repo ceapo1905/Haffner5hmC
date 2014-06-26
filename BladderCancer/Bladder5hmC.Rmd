@@ -1,0 +1,566 @@
+## Data Analysis - Results
+### Summary
+We found a significant decrease in 5-hydroxi-methyl-cytosine (5hmC) expression from normal to tumor tissues (P < 0.001), although differences were not apparent between noninvasive and invasive tumors (P = 0.60). We did not found significant associations between 5hmC expression and clinicopathologic features and outcome. Kaplan-Meier curves were not significantly different for patients with low or high 5hmC expression regarding overall mortality and cancer-related mortality. Logistic regression models and Cox's proportional hazard models did not show evidence of a prognostic usefulness of 5hmC in predicting outcome, either in unadjusted or in adjusted models.
+
+***
+
+### Global Options and Dataset
+* Defining global options
+```{r global}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE, fig.height = 7, fig.width = 9)
+```
+
+* Loading the dataset, libraries and sources for analysis
+```{r load}
+data <- read.delim("DatasetBladder.csv")
+attach(data)
+library(survival)
+source("../StandardAnalysis2.R")
+source("../SurvivalPlot.R")
+```
+
+***
+
+### Description of the Dataset
+In this section we will describe the dataset, including patient's clinical features, preoperative and surgical data, pathologic features of the tumor, as well as preoperative and posoperative treatment, and patient's outcome. For this section we will use the full dataset (N = `r nrow(data)`). This dataset include all cases that were used for building the tissue microarrays. Data for this section were obtain from medical charts and pathology reports.
+
+#### Patient's clinical features
+```{r clinical}
+# Patient's age
+descriptive(age)
+# Patient's sex
+table.prop(sex)
+# Patient's race
+table.prop(race)
+# Concomitant prostate carcinoma
+table.prop(pca)
+```
+#### Preoperative data
+```{r preoperative}
+# Preoperative specimen
+table.prop(pre.specimen)
+# Preoperative pT stage
+table.prop(pre.pt)
+# Preoperative clinical stage
+table.prop(pre.stage)
+# Presence of CIS in preoperative specimen
+table.prop(pre.cis)
+```
+#### Surgical data
+```{r surgical}
+# Surgical specimen
+table.prop(specimen)
+# pT stage at cystectomy
+table.prop(pt.cystectomy)
+# Clinical stage at cystectomy
+table.prop(stage.cystectomy)
+```
+#### Pathologic data
+```{r}
+# Diagnosis according to the pathology report
+table.prop(histo.dx)
+# Diagnosis at the TMA spot
+table.prop(spot.dx)
+# Histologic type of the tumor
+table.prop(type)
+# Presence of CIS
+table.prop(cis)
+# Lymphovascular invasion
+table.prop(lvi)
+# Total number of lymph nodes
+descriptive(nodes.total)
+# Presence of lymph nodes metastasis
+table.prop(ln.met)
+# Total number of metastatic lymph nodes
+descriptive(nodes.positive)
+```
+#### Treatment
+```{r treatment}
+# Preoperative radiotherapy
+table.prop(pre.rt)
+# Preoperative chemotherapy
+table.prop(pre.ct)
+# Intravesical chemotherapy
+table.prop(intra.ct)
+# Intravesical chemotherapy type
+table.prop(intra.ct.type)
+# Posoperative radiotherapy
+table.prop(pos.rt)
+# Posoperative chemotherapy
+table.prop(pos.ct)
+# Posoperative chemotherapy type
+table.prop(pos.ct.type)
+```
+#### Outcome
+```{r}
+# Follow-up from cystectomy, in months
+descriptive(fu.cystectomy)
+# Follow-up from diagnosis, in months
+descriptive(fu.diagnosis)
+# Early complications
+table.prop(comp.early)
+# Late complications
+table.prop(comp.late)
+# Metastatic disease after cystectomy
+table.prop(metastasis)
+# Tumor progression, i.e., metastatic disease or patient dying of cancer
+table.prop(progression)
+# Overall mortality, i.e., patient dying of any cause
+table.prop(death)
+# Cancer mortality, i.e., patient dying of cancer (No/Yes)
+table.prop(dod)
+```
+#### Overall 5-hydroxi-methyl-cytosine expression
+```{r 5hmc}
+# Tumor 5hmC median H-score
+descriptive(t.5hmc.med)
+# Normal 5hmC median H-score
+descriptive(n.5hmc.med)
+# Tumor 5hmC mean H-score
+descriptive(t.5hmc.m)
+# Normal 5hmC mean H-score
+descriptive(n.5hmc.m)
+```
+
+***
+
+### 5hmC expression in nontumor and tumor tissue
+In this section we will compare 5hmC H-scores as they were estimated in paired (i.e, form the sama surgical specimen) normal (i.e., histologically-normal urothelium) and tumor (both invasive and noninvasive) tissues. For this we will use the full dataset. Comparisons will be made using the Mann-Whitney U test.
+
+* Mean H-scores
+```{r meanComparisonNormal}
+# Comparing mean H-scores in nontumor and tumor tissues
+compare.mw2(n.5hmc.m, t.5hmc.m)
+# Ploting a boxplot
+boxplot(n.5hmc.m, t.5hmc.m, notch = TRUE, 
+        ylab = "Mean 5hmC H-scores", cex.lab = 1.2,
+        col = gray.colors(2),
+        names = c("Normal Cells", "Tumor Cells")
+        )
+# Plotting a violin plot
+require(vioplot)
+vioplot(n.5hmc.m, t.5hmc.m,
+        col = "gray",
+        rectCol = "white", colMed = "black",
+        names = c("Normal Cells", "Tumor Cells")
+        )
+title(ylab = "Mean 5hmC H-scores", cex.lab = 1.2)
+```
+
+* Median H-scores
+```{r medianComparisonNormal}
+# Comparing median H-scores in nontumor and tumor tissues
+compare.mw2(n.5hmc.med, t.5hmc.med)
+# Ploting a boxplot
+boxplot(n.5hmc.med, t.5hmc.med, notch = TRUE, 
+        ylab = "Median 5hmC H-scores", cex.lab = 1.2,
+        col = gray.colors(2),
+        names = c("Normal Cells", "Tumor Cells")
+        )
+# Plotting a violin plot
+require(vioplot)
+vioplot(n.5hmc.med, t.5hmc.med,
+        col = "gray",
+        rectCol = "white", colMed = "black",
+        names = c("Normal Cells", "Tumor Cells")
+        )
+title(ylab = "Median 5hmC H-scores", cex.lab = 1.2)
+```
+
+In addition, we will compare mean and median 5hmC scores between noninvasive and invasive tumors. Mean and median H-scores will be obtained from `t.5hmc.m` and `t.5hmc.med` (respectively), using `spot.dx` to identify which cases corresponded to noninvasive or invasive tumors. Regarding the latter, in some cases there was a discrepancy between the diagnosis given in the pathology report (as specified in `histo.dx`) and what was found at the TMA spot (specified in `spot.dx`). The following table shows what was found at the TMA spots.
+```{r spotDx}
+table.prop(spot.dx)
+```
+Thus, for the next comparisons and plots we will use only the `Invasive` and `Noninvasive` cases.
+* Mean H-scores
+```{r meanComparisonTumor}
+# Selecting only invasive and noninvasive cases from spot.dx
+mean.5hmc.invasive <- t.5hmc.m[spot.dx == "Invasive"]
+mean.5hmc.noninvasive <- t.5hmc.m[spot.dx == "Noninvasive"]
+# Comparing median H-scores in nontumor and tumor tissues
+compare.mw2(mean.5hmc.invasive, mean.5hmc.noninvasive)
+# Ploting a boxplot
+boxplot(mean.5hmc.invasive, mean.5hmc.noninvasive, notch = TRUE, 
+        ylab = "Mean 5hmC H-scores", cex.lab = 1.2,
+        col = gray.colors(2),
+        names = c("Invasive Tumors", "Noninvasive Tumors")
+        )
+# Plotting a violin plot
+require(vioplot)
+vioplot(mean.5hmc.invasive, mean.5hmc.noninvasive,
+        col = "gray",
+        rectCol = "white", colMed = "black",
+        names = c("Invasive Tumors", "Noninvasive Tumors")
+        )
+title(ylab = "Mean 5hmC H-scores", cex.lab = 1.2)
+```
+
+* Median H-scores
+```{r medianComparisonTumor}
+# Selecting only invasive and noninvasive cases from spot.dx
+median.5hmc.invasive <- t.5hmc.med[spot.dx == "Invasive"]
+median.5hmc.noninvasive <- t.5hmc.med[spot.dx == "Noninvasive"]
+# Comparing median H-scores in nontumor and tumor tissues
+compare.mw2(median.5hmc.invasive, median.5hmc.noninvasive)
+# Ploting a boxplot
+boxplot(median.5hmc.invasive, median.5hmc.noninvasive, notch = TRUE, 
+        ylab = "Median 5hmC H-scores", cex.lab = 1.2,
+        col = gray.colors(2),
+        names = c("Invasive Tumors", "Noninvasive Tumors")
+        )
+# Plotting a violin plot
+require(vioplot)
+vioplot(median.5hmc.invasive, median.5hmc.noninvasive,
+        col = "gray",
+        rectCol = "white", colMed = "black",
+        names = c("Invasive Tumors", "Noninvasive Tumors")
+        )
+title(ylab = "Median 5hmC H-scores", cex.lab = 1.2)
+```
+
+***
+
+### 5hmC expression and outcome
+For this section we will use 3 different approaches for evaluating the association of 5hmC and outcome: 1) using 5hmC H-scores; 2) categorizing 5hmC expression in low/high levels using the median as the cutoff point; 3) categorizing 5hmC expression in low/high levels using the Q3 as the cutoff point.
+
+Only invasive cases will be consider from now on, as observed at the TMA spot (i.e., `spot.dx == Invasive`).
+```{r invasive}
+invasive <- subset(data, spot.dx == "Invasive")
+detach(data)
+attach(invasive)
+```
+The number of invasive cases is N = `r nrow(invasive)`. Also, only median H-scores will be consider for analysis.
+
+#### Approach #1
+In this approach we will compare 5hmC `H-scores` against clinicopathologic features and outcome. Comparisons will be made using the Mann-Whitney U test. For age (numeric variable) we will use the median to define younger and older age groups.
+```{r outcome1}
+# 5hmC and patient's age
+age.group <- ifelse(age > median(age), c("Older age"), c("Younger age"))
+compare.mw(t.5hmc.med, age.group)
+# 5hmC and patient's sex
+compare.mw(t.5hmc.med, sex)
+# 5hmC and patient's race
+compare.mw(t.5hmc.med, race)
+# 5hmC and pT stage at cystectomy
+compare.kw(t.5hmc.med, pt.cystectomy)
+# 5hmC and clinical stage at cystectomy
+compare.kw(t.5hmc.med, stage.cystectomy)
+# 5hmC and lymphovascular invasion
+compare.mw(t.5hmc.med, lvi)
+# 5hmC and lymph node metastasis
+compare.mw(t.5hmc.med, ln.met)
+# 5hmC and early complications
+compare.mw(t.5hmc.med, comp.early)
+# 5hmC and late complications
+compare.mw(t.5hmc.med, comp.late)
+# 5hmC and metastatic disease after cystectomy
+compare.mw(t.5hmc.med, metastasis)
+# 5hmC and overall mortality
+compare.mw(t.5hmc.med, death)
+# 5hmC and cancer-related mortality
+compare.mw(t.5hmc.med, dod)
+# 5hmC and tumor progression
+compare.mw(t.5hmc.med, progression)
+```
+
+#### Approach # 2
+In this approach we will compare 5hmC levels (categorizing 5hmC expression in low/high levels using the `median` as the cutoff point) against clinicopathologic features and outcome. Comparisons will be made using the Fisher's exact test. For age (numeric variable) we will use the median to define younger and older age groups.
+```{r outcome2}
+# Categorizing 5hmC expression
+med.5hmc <- ifelse(t.5hmc.med > median(t.5hmc.med), c("High"), c("Low"))
+# 5hmC and patient's age
+compare.fisher(med.5hmc, age.group)
+# 5hmC and patient's sex
+compare.fisher(med.5hmc, sex)
+# 5hmC and patient's race
+compare.fisher(med.5hmc, race)
+# 5hmC and pT stage at cystectomy
+compare.fisher(med.5hmc, pt.cystectomy)
+# 5hmC and clinical stage at cystectomy
+compare.fisher(med.5hmc, stage.cystectomy)
+# 5hmC and lymphovascular invasion
+compare.fisher(med.5hmc, lvi)
+# 5hmC and lymph node metastasis
+compare.fisher(med.5hmc, ln.met)
+# 5hmC and early complications
+compare.fisher(med.5hmc, comp.early)
+# 5hmC and late complications
+compare.fisher(med.5hmc, comp.late)
+# 5hmC and metastatic disease after cystectomy
+compare.fisher(med.5hmc, metastasis)
+# 5hmC and overall mortality
+compare.fisher(med.5hmc, death)
+# 5hmC and cancer-related mortality
+compare.fisher(med.5hmc, dod)
+# 5hmC and tumor progression
+compare.fisher(med.5hmc, progression)
+```
+
+#### Approach # 3
+In this approach we will compare 5hmC levels (categorizing 5hmC expression in low/high levels using the `upper tertile` as the cutoff point) against clinicopathologic features and outcome. Comparisons will be made using the Fisher's exact test. For age (numeric variable) we will use the median to define younger and older age groups.
+```{r outcome3}
+# Categorizing 5hmC expression
+q3.5hmc <- ifelse(t.5hmc.med > quantile(t.5hmc.med, .75, na.rm = TRUE), c("High"), c("Low"))
+# 5hmC and patient's age
+compare.fisher(q3.5hmc, age.group)
+# 5hmC and patient's sex
+compare.fisher(q3.5hmc, sex)
+# 5hmC and patient's race
+compare.fisher(q3.5hmc, race)
+# 5hmC and pT stage at cystectomy
+compare.fisher(q3.5hmc, pt.cystectomy)
+# 5hmC and clinical stage at cystectomy
+compare.fisher(q3.5hmc, stage.cystectomy)
+# 5hmC and lymphovascular invasion
+compare.fisher(q3.5hmc, lvi)
+# 5hmC and lymph node metastasis
+compare.fisher(q3.5hmc, ln.met)
+# 5hmC and early complications
+compare.fisher(q3.5hmc, comp.early)
+# 5hmC and late complications
+compare.fisher(q3.5hmc, comp.late)
+# 5hmC and metastatic disease after cystectomy
+compare.fisher(q3.5hmc, metastasis)
+# 5hmC and overall mortality
+compare.fisher(q3.5hmc, death)
+# 5hmC and cancer-related mortality
+compare.fisher(q3.5hmc, dod)
+# 5hmC and tumor progression
+compare.fisher(q3.5hmc, progression)
+```
+
+***
+
+### Survival plots
+In this section we will plot survival curves for overall mortality and cancer-related mortality according to 5hmC expression, categorizing 5hmC expression in low/high levels using as cutoff points: 1) the median; 2) the upper tertile. We will use `follow-up from cystectomy` for the time-to-event analysis.
+
+* Defining survival objects
+```{r survobj}
+death.surv <- Surv(fu.cystectomy, as.numeric(death))
+dod.surv <- Surv(fu.cystectomy, as.numeric(dod))
+```
+
+#### Approach #1
+In this approch we will plot `Kaplan-Meier curves` for overall mortality and cancer-related mortality using the `median` H-score as the cutoff point for defining low/high 5hmC levels. We will compare survival curves using the `log-rank test`.
+
+* Overall mortality
+```{r kmplots1A}
+# Estimating P values using the log-rank test
+death.med.lr <- survdiff(death.surv ~ med.5hmc)
+death.med.p <- pchisq(death.med.lr$chisq, df = 1, lower = FALSE)
+# Plotting curves
+survival.plot(x = survfit(death.surv ~ med.5hmc), title = "Overall Mortality and 5hmC Expression", levels = c("High", "Low"))
+text(paste("P (log-rank test) = ", round(death.med.p, digits = 3)), x = 35, y = 0.01, cex = 1.25)
+```
+
+* Cancer-related mortality
+```{r kmplots1B}
+# Estimating P values using the log-rank test
+dod.med.lr <- survdiff(dod.surv ~ med.5hmc)
+dod.med.p <- pchisq(dod.med.lr$chisq, df = 1, lower = FALSE)
+# Plotting curves
+survival.plot(x = survfit(dod.surv ~ med.5hmc), title = "Cancer-Related Mortality and 5hmC Expression", levels = c("High", "Low"))
+text(paste("P (log-rank test) = ", round(dod.med.p, digits = 3)), x = 35, y = 0.01, cex = 1.25)
+```
+
+#### Approach #2
+In this approch we will plot `Kaplan-Meier curves` for overall mortality and cancer-related mortality using the upper tertile `Q3` H-score as the cutoff point for defining low/high 5hmC levels. We will compare survival curves using the `log-rank test`.
+
+* Overall mortality
+```{r kmplots2A}
+# Estimating P values using the log-rank test
+death.q3.lr <- survdiff(death.surv ~ q3.5hmc)
+death.q3.p <- pchisq(death.q3.lr$chisq, df = 1, lower = FALSE)
+# Plotting curves
+survival.plot(x = survfit(death.surv ~ q3.5hmc), title = "Overall Mortality and 5hmC Expression", levels = c("High", "Low"))
+text(paste("P (log-rank test) = ", round(death.q3.p, digits = 3)), x = 35, y = 0.01, cex = 1.25)
+```
+
+* Cancer-related mortality
+```{r kmplots2B}
+# Estimating P values using the log-rank test
+dod.q3.lr <- survdiff(dod.surv ~ med.5hmc)
+dod.q3.p <- pchisq(dod.med.lr$chisq, df = 1, lower = FALSE)
+# Plotting curves
+survival.plot(x = survfit(dod.surv ~ q3.5hmc), title = "Cancer-Related Mortality and 5hmC Expression", levels = c("High", "Low"))
+text(paste("P (log-rank test) = ", round(dod.q3.p, digits = 3)), x = 35, y = 0.01, cex = 1.25)
+```
+
+***
+
+### Logistic regression models for predicting outcome
+In this section we will built logistic regression models for predicing overall mortality, cancer-related mortality, metastatic disease, and tumor progression using 5hmC expression. As before, we will categore 5hmC expression in low/high levels using as cutoff points: 1) the median; 2) the upper tertile. For each approach we will present 4 models, for each outcome: 1) unadjusted model; model adjusted by clinical features; 3) model adjusted by pathologic features; 4) model adjusted by clinical and pahtologic features.
+
+**Clinical features** to be used for adjustment include age group, sex, and race. **Pathologic features** to be used for adjustment include high pT stage (>pT2, see below), CIS, lymphovascular invasion, and lymph node metastasis.
+
+```{r highpt}
+# Categorizing pT stages in low/high pT stage
+high.pt <- ifelse(pt.cystectomy == "Tis-Ta" | pt.cystectomy == "T1" | pt.cystectomy == "T2" | pt.cystectomy == "T2a" | pt.cystectomy == "T2b", c("Low pT stage"), c("High pT stage"))
+```
+
+#### Approach #1
+In this approach we will estimate `odds ratios` for overall mortality, cancer-related mortality, metastatic disease, and tumor progression using 5hmC expression categorized in low/high levels using the `median`as the cutoff point.
+
+* Overall mortality
+```{r logistic1A}
+# Unadjusted model
+logistic(death ~ med.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(death ~ med.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(death ~ med.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(death ~ med.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Cancer-related mortality
+```{r logistic1B}
+# Unadjusted model
+logistic(dod ~ med.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(dod ~ med.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(dod ~ med.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(dod ~ med.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Metastatic disease
+```{r logistic1C}
+# Unadjusted model
+logistic(metastasis ~ med.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(metastasis ~ med.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(metastasis ~ med.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(metastasis ~ med.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Tumor progression
+```{r logistic1D}
+# Unadjusted model
+logistic(death ~ med.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(death ~ med.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(death ~ med.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(death ~ med.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+#### Approach #2
+In this approach we will estimate `odds ratios` for overall mortality, cancer-related mortality, metastatic disease, and tumor progression using 5hmC expression categorized in low/high levels using the upper tertile `q3` as the cutoff point.
+
+* Overall mortality
+```{r logistic2A}
+# Unadjusted model
+logistic(death ~ q3.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(death ~ q3.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(death ~ q3.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(death ~ q3.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Cancer-related mortality
+```{r logistic2B}
+# Unadjusted model
+logistic(dod ~ q3.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(dod ~ q3.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(dod ~ q3.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(dod ~ q3.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Metastatic disease
+```{r logistic2C}
+# Unadjusted model
+logistic(metastasis ~ q3.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(metastasis ~ q3.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(metastasis ~ q3.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(metastasis ~ q3.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Tumor progression
+```{r logistic2D}
+# Unadjusted model
+logistic(progression ~ q3.5hmc, invasive)
+# Model adjusted by clinical features
+logistic(progression ~ q3.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+logistic(progression ~ q3.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+logistic(progression ~ q3.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+***
+
+### Cox's proportional hazards regression models for predicting outcome
+In this section we will built Cox's models for predicing overall mortality and cancer-related mortality using 5hmC expression. As before, we will categore 5hmC expression in low/high levels using as cutoff points: 1) the median; 2) the upper tertile. For each approach we will present 4 models, for each outcome: 1) unadjusted model; model adjusted by clinical features; 3) model adjusted by pathologic features; 4) model adjusted by clinical and pahtologic features. We will use `follow-up from cystectomy` for the time-to-event analysis.
+
+**Clinical features** to be used for adjustment include age group, sex, and race. **Pathologic features** to be used for adjustment include high pT stage (>pT2, see above), CIS, lymphovascular invasion, and lymph node metastasis.
+
+#### Approach #1
+In this approach we will estimate `hazard ratios` for overall mortality, cancer-related mortality, metastatic disease, and tumor progression using 5hmC expression categorized in low/high levels using the `median`as the cutoff point.
+
+* Overall mortality
+```{r cox1A}
+# Unadjusted model
+hazard(death.surv ~ med.5hmc, invasive)
+# Model adjusted by clinical features
+hazard(death.surv ~ med.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+hazard(death.surv ~ med.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+hazard(death.surv ~ med.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Cancer-related mortality
+```{r cox1B}
+# Unadjusted model
+hazard(dod.surv ~ med.5hmc, invasive)
+# Model adjusted by clinical features
+hazard(dod.surv ~ med.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+hazard(dod.surv ~ med.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+hazard(dod.surv ~ med.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+
+#### Approach #2
+In this approach we will estimate `hazard ratios` for overall mortality, cancer-related mortality, metastatic disease, and tumor progression using 5hmC expression categorized in low/high levels using the upper tertile `q3` as the cutoff point.
+
+* Overall mortality
+```{r cox2A}
+# Unadjusted model
+hazard(death.surv ~ q3.5hmc, invasive)
+# Model adjusted by clinical features
+hazard(death.surv ~ q3.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+hazard(death.surv ~ q3.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+hazard(death.surv ~ q3.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+* Cancer-related mortality
+```{r cox2B}
+# Unadjusted model
+hazard(dod.surv ~ q3.5hmc, invasive)
+# Model adjusted by clinical features
+hazard(dod.surv ~ q3.5hmc + age.group + sex + race, invasive)
+# Model adjusted by pathologic features
+hazard(dod.surv ~ q3.5hmc + high.pt + cis + lvi + ln.met, invasive)
+# Model adjusted by clinical and pathologic features
+hazard(dod.surv ~ q3.5hmc + age.group + sex + race + high.pt + cis + lvi + ln.met, invasive)
+```
+
+***

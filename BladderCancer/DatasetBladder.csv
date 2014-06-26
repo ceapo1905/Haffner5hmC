@@ -1,0 +1,56 @@
+specimen	histo.dx	spot.dx	type	pt.cystectomy	stage.cystectomy	pca	age	sex	race	pre.cis	pre.specimen	pre.pt	pre.stage	progression	death	dod	fu.cystectomy	fu.diagnosis	pre.rt	pre.ct	intra.ct	intra.ct.type	pos.rt	pos.ct	pos.ct.type	comp.early	comp.late	nodes.total	nodes.positive	ln.met	metastasis	lvi	cis	t.5hmc.med	n.5hmc.med	t.5hmc.m	n.5hmc.m
+Bladder	Invasive	Invasive	Usual	T2b	II	No	55	Female	Caucasian	NA	NA	NA	NA	No	No	No	138	138	NA	NA	NA	NA	NA	NA	NA	No	No	3	0	No	NA	Yes	Yes	50	140	67	140
+Other	Invasive	Invasive	Usual	T2b	II	No	52.1	Female	Caucasian	No	Biopsy	T1	II	No	No	No	35	35	No	No	Yes	BCG	No	No	NA	Yes	No	0	0	No	No	No	Yes	25	25	30	25
+Radical Cystoprostatectomy	Noninvasive	Noninvasive	NA	Tis-Ta	NA	Yes	78.4	Male	Caucasian	Yes	Biopsy	T1	NA	No	No	No	39	46	No	No	Yes	BCG	No	Yes	Salvage	No	Yes	5	0	No	Yes	No	Yes	30	160	30	160
+Radical Cystoprostatectomy	Invasive	Normal	NA	T3a	III	No	71.8	Male	Caucasian	Yes	Biopsy	T2	III	No	No	No	129	136	No	No	Yes	BCG	No	Yes	Salvage	Yes	Yes	8	0	No	No	No	Yes	120	165	120	165
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	III	No	57.9	Male	Caucasian	No	Biopsy	T2	III	No	No	No	93	96	Yes	Yes	Yes	BCG	No	No	NA	Yes	Yes	8	0	No	No	No	No	10	115	10	115
+Bladder	Invasive	Invasive	Usual	T3a	III	Yes	78	Female	Caucasian	No	TURBT	T2b	III	No	No	No	48	57	No	No	Yes	BCG	No	No	NA	Yes	Yes	15	0	No	No	Yes	No	0	180	1	180
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T4a	IV	Yes	71.1	Male	Caucasian	Yes	TURBT	T4a	III	No	No	No	37	38	No	No	No	NA	No	Yes	Salvage	No	Yes	17	0	No	Yes	No	Yes	5	0	26	0
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	IV	No	59.4	Male	Caucasian	Yes	TURBT	Tis-Ta	IV	No	No	No	5	5	No	No	No	NA	No	No	NA	No	No	13	0	No	No	No	Yes	85	75	60	75
+Radical Cystoprostatectomy	Noninvasive	Noninvasive	NA	Tis-Ta	NA	No	77.2	Male	Caucasian	Yes	Biopsy	Tis-Ta	NA	No	No	No	17	23	No	No	Yes	BCG	No	No	NA	Yes	No	6	0	No	Yes	Yes	Yes	0	120	1	120
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T1	I	No	75.2	Male	Caucasian	No	TURBT	T1	III	No	Yes	NA	10	42	No	No	Yes	BCG	Yes	Yes	Adjuvant	Yes	Yes	0	0	No	No	Yes	No	110	180	113	180
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T1	I	No	80.6	Male	Caucasian	Yes	Biopsy	T1	I	Yes	Yes	Yes	53	240	No	No	Yes	BCG	No	Yes	NA	Yes	Yes	5	0	No	Yes	No	Yes	5	135	5	135
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T1	I	Yes	67.2	Male	Caucasian	Yes	Biopsy	T1	I	No	Yes	NA	31	55	No	No	Yes	BCG	No	No	NA	No	No	8	0	No	No	No	Yes	5	120	7	120
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	II	No	46.5	Male	Caucasian	Yes	Biopsy	T1	II	No	Yes	NA	26	35	No	No	Yes	BCG	No	Yes	Adjuvant	No	Yes	20	0	No	Yes	No	Yes	80	200	77	200
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	III	Yes	54.6	Male	Caucasian	Yes	Biopsy	T1	III	Yes	Yes	Yes	26	26	No	No	No	NA	No	No	NA	Yes	Yes	19	0	No	Yes	No	No	30	215	25	215
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3b	III	No	84.1	Male	Caucasian	No	Biopsy	T1	III	Yes	Yes	Yes	4	5	No	No	Yes	BCG	No	Yes	Adjuvant	No	No	14	2	Yes	No	No	No	0	0	0	0
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T4a	IV	Yes	73.9	Male	Caucasian	No	TURBT	T1	III	Yes	Yes	Yes	124	10	No	No	No	NA	No	No	NA	No	No	8	0	No	No	No	Yes	30	210	34	210
+Bladder	Invasive	Invasive	Usual	T4a	IV	Yes	71.2	Male	Caucasian	Yes	TURBT	T1	III	Yes	Yes	Yes	6	8	No	No	No	NA	No	No	NA	No	No	10	0	No	No	No	No	5	150	9	150
+Bladder	Noninvasive	Noninvasive	NA	Tis-Ta	NA	No	52.1	Female	Caucasian	Yes	Biopsy	T1	I	Yes	Yes	Yes	212	215	No	No	No	NA	No	No	NA	No	No	6	0	No	No	No	No	130	5	112	5
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T1	I	Yes	67.6	Male	Caucasian	Yes	TURBT	T2	I	Yes	Yes	Yes	24	48	Yes	Yes	Yes	BCG	No	Yes	NA	Yes	Yes	0	0	No	Yes	No	No	15	85	16	85
+Other	Invasive	Invasive	Usual	T1	I	No	67.7	Female	African-American	Yes	TURBT	T2	I	Yes	Yes	Yes	33	34	No	No	No	NA	No	Yes	Adjuvant	No	Yes	18	0	No	Yes	No	No	67	115	67	115
+Radical Cystectomy	Invasive	Invasive	Divergent	T2	IV	Yes	49.4	Male	Caucasian	No	TURBT	T2	III	Yes	Yes	Yes	71	74	No	No	No	NA	Yes	Yes	Salvage	No	Yes	32	0	No	Yes	No	Yes	45	100	45	107
+Bladder	Invasive	Invasive	Usual	T2a	II	No	62.2	Female	African-American	Yes	TURBT	T2	II	No	Yes	No	41	52	No	No	Yes	BCG	No	Yes	Adjuvant	Yes	Yes	11	3	Yes	Yes	Yes	Yes	10	140	8	140
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	II	No	49	Male	Caucasian	No	TURBT	T2	II	No	Yes	NA	61	145	No	No	Yes	BCG	No	No	NA	No	No	2	0	No	No	No	No	10	95	10	95
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	II	No	65.7	Male	Caucasian	No	Biopsy	T2	II	No	Yes	NA	13	58	No	No	Yes	BCG	No	No	NA	No	No	13	3	Yes	No	No	No	10	80	13	80
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3	III	No	83.3	Male	Caucasian	Yes	Biopsy	T2	III	Yes	Yes	Yes	26	41	No	Yes	NA	NA	No	Yes	Adjuvant	No	Yes	0	0	No	Yes	Yes	No	10	80	10	80
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3	III	Yes	56.5	Male	Caucasian	Yes	Biopsy	T2	III	Yes	Yes	Yes	86	89	No	No	No	NA	No	No	NA	No	Yes	8	0	No	No	No	No	113	0	113	0
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	II	Yes	53.6	Male	Caucasian	Yes	TURBT	T2	III	Yes	Yes	Yes	14	18	No	No	No	NA	No	Yes	Adjuvant	No	No	25	0	No	No	No	No	30	130	47	130
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	IV	No	68.2	Male	Caucasian	No	Biopsy	T2	IV	Yes	Yes	Yes	8	11	No	No	No	NA	No	Yes	Adjuvant	No	No	23	2	Yes	Yes	No	Yes	38	0	38	0
+Radical Cystectomy	Invasive	Invasive	Usual	T3a	IV	No	63.9	Female	Caucasian	Yes	Biopsy	T2	III	Yes	Yes	Yes	9	12	No	No	No	NA	No	No	NA	No	No	14	0	No	No	Yes	No	30	120	30	120
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	III	Yes	71.6	Male	Caucasian	No	Biopsy	T2	IV	Yes	Yes	Yes	26	29	No	No	Yes	BCG	No	No	NA	Yes	No	12	0	No	No	Yes	Yes	5	85	3	85
+Bladder	Invasive	Invasive	Usual	T3b	III	No	60.4	Male	Caucasian	No	TURBT	T2	III	Yes	Yes	Yes	47	51	No	No	No	NA	No	No	NA	No	No	0	0	No	Yes	No	No	5	85	3	85
+Radical Cystoprostatectomy	Invasive	Invasive	Both	T3b	IV	No	34.8	Male	Caucasian	No	TURBT	T2	IV	Yes	Yes	Yes	34	35	No	No	No	NA	No	Yes	NA	No	No	19	0	No	Yes	No	Yes	0	170	0	170
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3b	III	Yes	56.1	Male	Caucasian	No	Biopsy	T2	III	No	Yes	No	5	8	No	No	NA	NA	No	No	NA	No	No	4	0	No	No	Yes	Yes	50	105	70	105
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T4a	IV	No	74	Male	Caucasian	Yes	Biopsy	T2	III	Yes	Yes	Yes	184	187	No	No	No	NA	Yes	Yes	Adjuvant	No	Yes	0	0	No	No	No	No	0	190	0	190
+Bladder	Invasive	Invasive	Usual	T2	II	No	58.6	Male	Caucasian	No	Biopsy	T2a	III	Yes	Yes	Yes	16	17	No	No	No	NA	No	Yes	Adjuvant	Yes	No	18	5	Yes	NA	Yes	Yes	50	0	45	0
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2a	II	No	67.6	Male	Caucasian	No	TURBT	T2a	II	Yes	Yes	Yes	25	27	No	Yes	No	NA	No	No	NA	Yes	Yes	5	0	No	No	No	Yes	35	203	36	203
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	III	Yes	75.4	Male	Caucasian	Yes	Biopsy	T2a	III	Yes	Yes	Yes	13	14	No	No	No	NA	No	Yes	Adjuvant	Yes	No	4	1	Yes	No	Yes	No	0	0	0	0
+Bladder	Invasive	Invasive	Usual	T4a	IV	No	75.8	Female	Caucasian	No	Biopsy	T2a	III	No	Yes	No	75	78	No	No	No	NA	No	No	NA	No	No	0	0	No	No	Yes	No	60	0	73	0
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2	IV	No	42.3	Male	Caucasian	No	Biopsy	T2b	IV	Yes	Yes	Yes	49	51	No	No	No	NA	No	No	NA	Yes	Yes	24	0	No	No	No	No	5	143	7	143
+Bladder	Invasive	Invasive	Divergent	T4a	IV	No	51.1	Male	Caucasian	No	TURBT	T2b	IV	Yes	Yes	Yes	19	21	No	No	NA	NA	No	Yes	Adjuvant	Yes	No	8	4	Yes	Yes	Yes	Yes	0	0	2	0
+Bladder	Invasive	Invasive	Usual	T2a	II	No	74	Female	Caucasian	No	TURBT	T3	III	No	Yes	NA	30	34	No	No	No	NA	No	Yes	Adjuvant	No	Yes	20	2	Yes	No	No	Yes	40	128	47	128
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	II	Yes	84.2	Male	Caucasian	Yes	Biopsy	T3	II	No	Yes	NA	73	112	No	No	Yes	BCG	No	No	NA	Yes	No	23	0	No	No	No	Yes	80	93	70	93
+Radical Cystectomy	Invasive	Invasive	Usual	T2b	IV	Yes	55.7	Male	African-American	No	Biopsy	T3	II	Yes	Yes	Yes	95	98	No	No	No	NA	No	No	NA	Yes	Yes	7	0	No	No	No	No	60	0	73	0
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	IV	No	75.1	Male	Caucasian	Yes	Biopsy	T3	IV	No	Yes	NA	8	9	No	No	No	NA	No	No	NA	No	No	15	0	No	Yes	Yes	No	0	48	0	48
+Bladder	Invasive	Invasive	Usual	T3a	III	No	88.8	Female	African-American	No	Biopsy	T3	III	No	Yes	NA	12	13	No	No	No	NA	No	No	NA	No	No	17	0	No	No	No	No	5	90	13	90
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	III	No	65.8	Male	African-American	No	Biopsy	T3	III	No	Yes	No	33	35	No	No	No	NA	No	No	NA	Yes	Yes	16	0	No	NA	No	No	40	73	30	73
+Bladder	Invasive	Invasive	Usual	T3b	III	No	67.5	Female	Caucasian	No	Biopsy	T3	IV	Yes	Yes	Yes	89	91	No	No	No	NA	No	Yes	Adjuvant	No	Yes	16	0	No	No	Yes	No	60	260	70	260
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3b	III	Yes	70.8	Male	Caucasian	No	TURBT	T3	III	Yes	Yes	Yes	76	80	No	No	Yes	BCG	No	No	NA	No	No	12	0	No	No	No	No	40	80	35	80
+Radical Cystoprostatectomy	Invasive	Invasive	Divergent	T3b	III	Yes	63.9	Male	Caucasian	No	Biopsy	T3	III	Yes	Yes	Yes	9	12	No	No	Yes	BCG	No	Yes	Adjuvant	No	Yes	21	1	Yes	No	No	Yes	10	0	15	0
+Radical Cystoprostatectomy	Noninvasive	Noninvasive	NA	Tis-Ta	NA	No	47.3	Male	Caucasian	Yes	TURBT	Tis-Ta	I	No	Yes	No	31	38	No	No	Yes	BCG	No	No	NA	No	No	9	1	Yes	No	No	No	25	195	25	195
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2	IV	Yes	67.4	Male	Caucasian	Yes	TURBT	Tis-Ta	IV	No	Yes	NA	29	30	No	No	Yes	BCG	No	No	NA	No	Yes	15	0	No	No	Yes	No	80	148	83	148
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T2b	II	No	67.1	Male	Caucasian	Yes	TURBT	Tis-Ta	III	No	Yes	NA	40	41	No	No	Yes	BCG	Yes	Yes	Adjuvant	Yes	Yes	17	0	No	Yes	No	No	35	148	37	148
+Radical Cystoprostatectomy	Invasive	Invasive	Usual	T3a	III	No	68.6	Male	Caucasian	Yes	TURBT	Tis-Ta	III	Yes	Yes	Yes	106	107	No	No	Yes	BCG	No	No	NA	No	No	15	0	No	No	Yes	Yes	10	105	30	105
+Radical Cystoprostatectomy	Noninvasive	Normal	NA	Tis-Ta	NA	No	76.6	Male	Caucasian	Yes	TURBT	Tis-Ta	III	No	Yes	NA	48	57	No	No	Yes	BCG	No	No	NA	Yes	Yes	9	0	No	NA	No	Yes	34	70	34	70
+Radical Cystoprostatectomy	Noninvasive	Noninvasive	NA	Tis-Ta	NA	Yes	60.5	Male	Caucasian	Yes	Biopsy	Tis-Ta	I	Yes	Yes	Yes	9	12	No	No	Yes	BCG	Yes	No	NA	Yes	No	12	0	No	Yes	No	No	50	155	62	155
