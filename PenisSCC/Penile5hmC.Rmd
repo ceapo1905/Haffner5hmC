@@ -1,5 +1,6 @@
 # Data Analysis
 
+## Preparing the environment and dataset for analysis
 ```{r GlobalOptions}
 # Setting the global options for the analysis
 library(knitr)
@@ -25,12 +26,15 @@ DataSpot <- subset(DataSpot, !is.na(grade))
 # Renaming variable of interest
 DataSpot <- rename(DataSpot, c("X5hmc" = "fhmc"))
 # Renaming levels of the "subtype" variable
-DataSpot$subtype <- revalue(DataSpot$subtype, c("basaloid" = "Basaloid", "papillary" = "Papillary", "usual" = "Usual", "warty" = "Warty", "warty-basaloid" = "Warty-Basaloid"))
+DataSpot$subtype <- revalue(DataSpot$subtype, c("basaloid" = "Basaloid",
+                "papillary" = "Papillary", "usual" = "Usual", "warty" = "Warty",
+                "warty-basaloid" = "Warty-Basaloid"))
 # Converting numeric variable "grade" to factor variable and renaming levels
 DataSpot$grade <- factor(DataSpot$grade)
 DataSpot$grade <- revalue(DataSpot$grade, c("1" = "Grade 1", "2" = "Grade 2", "3" = "Grade 3"))
 # Creating a "case-by-case" dataset
-DataCase <- ddply(DataSpot, c("caseid", "subtype"), summarize, gradeCase = max(as.numeric(grade)), fhmcCase = median(fhmc))
+DataCase <- ddply(DataSpot, c("caseid", "subtype"), summarize,
+                  gradeCase = max(as.numeric(grade)), fhmcCase = median(fhmc))
 # Converting numeric variable "gradeCase" to factor variable and renaming levels
 DataCase$gradeCase <- factor(DataCase$gradeCase)
 DataCase$gradeCase <- revalue(DataCase$gradeCase, c("1" = "Grade 1", "2" = "Grade 2", "3" = "Grade 3"))
@@ -44,13 +48,15 @@ A total of `r nrow(DataSpot)` TMA spots were analyzed, corresponding to `r nrow(
 
 * __Distribution by histologic subype__
 ```{r SubtypeDistribution}
-with(DataCase, barplot(table(subtype), xlab = "Histologic subtype", ylab = "No. cases", cex.lab = 1.25, col = gray.colors(5)))
+with(DataCase, barplot(table(subtype), xlab = "Histologic subtype", ylab = "No. cases",
+                       cex.lab = 1.25, col = gray.colors(5)))
 table.prop(DataCase$subtype)
 ```
 
-* __Distirbution by histologic grade__
+* __Distribution by histologic grade__
 ```{r GradeDistribution}
-with(DataCase, barplot(table(gradeCase), xlab = "Histologic grade", ylab = "No. cases", cex.lab = 1.25, col = gray.colors(3)))
+with(DataCase, barplot(table(gradeCase), xlab = "Histologic grade", ylab = "No. cases",
+                       cex.lab = 1.25, col = gray.colors(3)))
 table.prop(DataCase$gradeCase)
 ```
 

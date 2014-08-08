@@ -1,5 +1,6 @@
 # Data Analysis
 
+## Preparing the environment and dataset for analysis
 
 ```r
 # Setting the global options for the analysis
@@ -28,12 +29,15 @@ DataSpot <- subset(DataSpot, !is.na(grade))
 # Renaming variable of interest
 DataSpot <- rename(DataSpot, c("X5hmc" = "fhmc"))
 # Renaming levels of the "subtype" variable
-DataSpot$subtype <- revalue(DataSpot$subtype, c("basaloid" = "Basaloid", "papillary" = "Papillary", "usual" = "Usual", "warty" = "Warty", "warty-basaloid" = "Warty-Basaloid"))
+DataSpot$subtype <- revalue(DataSpot$subtype, c("basaloid" = "Basaloid",
+                "papillary" = "Papillary", "usual" = "Usual", "warty" = "Warty",
+                "warty-basaloid" = "Warty-Basaloid"))
 # Converting numeric variable "grade" to factor variable and renaming levels
 DataSpot$grade <- factor(DataSpot$grade)
 DataSpot$grade <- revalue(DataSpot$grade, c("1" = "Grade 1", "2" = "Grade 2", "3" = "Grade 3"))
 # Creating a "case-by-case" dataset
-DataCase <- ddply(DataSpot, c("caseid", "subtype"), summarize, gradeCase = max(as.numeric(grade)), fhmcCase = median(fhmc))
+DataCase <- ddply(DataSpot, c("caseid", "subtype"), summarize,
+                  gradeCase = max(as.numeric(grade)), fhmcCase = median(fhmc))
 # Converting numeric variable "gradeCase" to factor variable and renaming levels
 DataCase$gradeCase <- factor(DataCase$gradeCase)
 DataCase$gradeCase <- revalue(DataCase$gradeCase, c("1" = "Grade 1", "2" = "Grade 2", "3" = "Grade 3"))
@@ -48,7 +52,8 @@ A total of 147 TMA spots were analyzed, corresponding to 38 cases of penile squa
 * __Distribution by histologic subype__
 
 ```r
-with(DataCase, barplot(table(subtype), xlab = "Histologic subtype", ylab = "No. cases", cex.lab = 1.25, col = gray.colors(5)))
+with(DataCase, barplot(table(subtype), xlab = "Histologic subtype", ylab = "No. cases",
+                       cex.lab = 1.25, col = gray.colors(5)))
 ```
 
 ![plot of chunk SubtypeDistribution](figure/SubtypeDistribution.png) 
@@ -66,10 +71,11 @@ table.prop(DataCase$subtype)
 ## Warty-Basaloid    10        26.3
 ```
 
-* __Distirbution by histologic grade__
+* __Distribution by histologic grade__
 
 ```r
-with(DataCase, barplot(table(gradeCase), xlab = "Histologic grade", ylab = "No. cases", cex.lab = 1.25, col = gray.colors(3)))
+with(DataCase, barplot(table(gradeCase), xlab = "Histologic grade", ylab = "No. cases",
+                       cex.lab = 1.25, col = gray.colors(3)))
 ```
 
 ![plot of chunk GradeDistribution](figure/GradeDistribution.png) 
