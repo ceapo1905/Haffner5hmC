@@ -1,4 +1,4 @@
-## Data Analysis
+# Data Analysis
 
 ```{r GlobalOptions}
 # Setting the global options for the analysis
@@ -9,12 +9,13 @@ opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.height = 5, fi
 ```{r libraries}
 # Loading the requiered libraries and sources
 library(plyr)
-source("StandardAnalysis3.R")
+source("../StandardAnalysis3.R")
+source("../Cuzick.R")
 ```
 
 ```{r dataset}
 # Loading the full dataset
-DataFull <- read.csv("../tma852-855_dataset.csv", na.strings = ".")
+DataFull <- read.csv("tma852-855_dataset.csv", na.strings = ".")
 # Selecting the variables for the study
 Variables <- c("caseid", "subtype", "grade", "X5hmc")
 DataSelected <- DataFull[, Variables]
@@ -38,22 +39,34 @@ DataSpot <- droplevels(DataSpot)
 DataCase <- droplevels(DataCase)
 ```
 
-### Results
+## Results
 A total of `r nrow(DataSpot)` TMA spots were analyzed, corresponding to `r nrow(DataCase)` cases of penile squamous cell carcinoma. The distribution by histologic subtype and grade (for all cases) is shown below.
 
 * __Distribution by histologic subype__
 ```{r SubtypeDistribution}
+with(DataCase, barplot(table(subtype), xlab = "Histologic subtype", ylab = "No. cases", cex.lab = 1.25, col = gray.colors(5)))
 table.prop(DataCase$subtype)
 ```
 
 * __Distirbution by histologic grade__
 ```{r GradeDistribution}
+with(DataCase, barplot(table(gradeCase), xlab = "Histologic grade", ylab = "No. cases", cex.lab = 1.25, col = gray.colors(3)))
 table.prop(DataCase$gradeCase)
 ```
 
 ***
 
-#### Association of 5mhC with histologic grade
+### Association of 5mhC with histologic grade
+* __Boxplots of 5hmC expression__
+```{r GradePlots}
+par(mfrow = c(1, 2))
+# Spot-by-spot boxplot
+with(DataSpot, boxplot(fhmc ~ grade, main = "Spot-by-Spot", col = gray.colors(3)))
+# Case-by-case boxplot
+with(DataCase, boxplot(fhmcCase ~ gradeCase, main = "Case-by-Case", col = gray.colors(3)))
+```
+
+* __Kruskal-Wallis test__
 ```{r GradeKW}
 # Spot-by-spot KW test
 kruskal.test(fhmc ~ grade, data = DataSpot)
@@ -61,26 +74,65 @@ kruskal.test(fhmc ~ grade, data = DataSpot)
 kruskal.test(fhmcCase ~ gradeCase, data = DataCase)
 ```
 
-```{r GradePlots}
-par(mfrow = c(1, 2))
-# Spot-by-spot boxplot
-with(DataSpot, boxplot(fhmc ~ grade, main = "Spot-by-Spot"))
-# Case-by-case boxplot
-with(DataCase, boxplot(fhmcCase ~ gradeCase, main = "Case-by-Case"))
+* __Cuzick test__
+```{r GradeCuzick}
+# Spot-by-spot Cuzick test
+cuzick(DataSpot$grade, DataSpot$fhmc)
+# Case-by-Case Cuzick test
+cuzick(DataCase$gradeCase, DataCase$fhmcCase)
+```
+
+* __Immunohistochemical 5hmC expression__
+![Image title](penile_5hmc_fig1.jpg)
+
+***
+
+### Association of 5hmC with histologic subtype
+```{r SubtypePlots}
+with(DataCase, boxplot(fhmcCase ~ subtype, cex.lab = 1.25, col = gray.colors(5),
+                       xlab = "Histologic subtype", ylab = "5hmC expression (%)"))
+```
+
+* __Kruskal-Wallis test__
+```{r SubtypeKW}
+# 5hmC by histologic subtype in all cases
+kruskal.test(fhmcCase ~ subtype, data = DataCase)
 ```
 
 ***
 
-#### Association of 5hmC with histologic subtype
-```{r SubtypeKW}
-kruskal.test(fhmcCase ~ subtype, data = DataCase)
+### Histologic grade by histologic subtype
+* __Barplot of histologic grade by subtype__
+```{r SubtypeGradePlot}
+# Histologic subtype by grade in all cases
+with(DataCase, barplot(table(gradeCase, subtype), beside = TRUE, cex.lab = 1.25,
+                       xlab = "Histologic subtype", ylab = "No. Cases",
+                       legend.text = TRUE, args.legend = list(x = 4)))
 ```
 
-```{r SubtypePlots, fig.height = 15, fig.width = 9}
-par(mfrow = c(3, 1), cex = 1.1)
-with(DataCase, boxplot(fhmcCase ~ subtype, main = "Subtype"))
-with(DataCase, barplot(table(gradeCase, subtype), beside = TRUE))
-with(DataCase[DataCase$subtype == "Usual",], boxplot(fhmcCase ~ gradeCase, main = "Usual SCC"))
-
+* __Fisher's exact test for histologic grade by subtype__
+```{r SubtypeGradeFisher}
+with(DataCase, fisher.test(gradeCase, subtype))
 ```
 
+***
+
+### 5hmC expression in usual SCC
+* __Boxplot of 5hmC in usual SCC__
+```{r UsualPlot}
+with(DataCase[DataCase$subtype == "Usual",],
+     boxplot(fhmcCase ~ gradeCase, main = "Usual SCC", col = gray.colors(3),
+             ylab = "5hmC Expression (%)", cex.lab = 1.25))
+```
+
+* __Kruskal-Wallis test__
+```{r UsualKW}
+with(DataCase[DataCase$subtype == "Usual",], kruskal.test(fhmcCase ~ gradeCase))
+```
+
+* __Cuzick test__
+```{r UsualCuzick}
+with(DataCase[DataCase$subtype == "Usual",], cuzick(gradeCase, fhmcCase))
+```
+
+***
