@@ -1,0 +1,86 @@
+## Data Analysis
+
+```{r GlobalOptions}
+# Setting the global options for the analysis
+library(knitr)
+opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.height = 5, fig.width = 9)
+```
+
+```{r libraries}
+# Loading the requiered libraries and sources
+library(plyr)
+source("StandardAnalysis3.R")
+```
+
+```{r dataset}
+# Loading the full dataset
+DataFull <- read.csv("../tma852-855_dataset.csv", na.strings = ".")
+# Selecting the variables for the study
+Variables <- c("caseid", "subtype", "grade", "X5hmc")
+DataSelected <- DataFull[, Variables]
+# Subsetting the data to exclude rows with missing cases
+DataSpot <- subset(DataSelected, !is.na(X5hmc))
+DataSpot <- subset(DataSpot, !is.na(grade))
+# Renaming variable of interest
+DataSpot <- rename(DataSpot, c("X5hmc" = "fhmc"))
+# Renaming levels of the "subtype" variable
+DataSpot$subtype <- revalue(DataSpot$subtype, c("basaloid" = "Basaloid", "papillary" = "Papillary", "usual" = "Usual", "warty" = "Warty", "warty-basaloid" = "Warty-Basaloid"))
+# Converting numeric variable "grade" to factor variable and renaming levels
+DataSpot$grade <- factor(DataSpot$grade)
+DataSpot$grade <- revalue(DataSpot$grade, c("1" = "Grade 1", "2" = "Grade 2", "3" = "Grade 3"))
+# Creating a "case-by-case" dataset
+DataCase <- ddply(DataSpot, c("caseid", "subtype"), summarize, gradeCase = max(as.numeric(grade)), fhmcCase = median(fhmc))
+# Converting numeric variable "gradeCase" to factor variable and renaming levels
+DataCase$gradeCase <- factor(DataCase$gradeCase)
+DataCase$gradeCase <- revalue(DataCase$gradeCase, c("1" = "Grade 1", "2" = "Grade 2", "3" = "Grade 3"))
+# Dropping unused levels
+DataSpot <- droplevels(DataSpot)
+DataCase <- droplevels(DataCase)
+```
+
+### Results
+A total of `r nrow(DataSpot)` TMA spots were analyzed, corresponding to `r nrow(DataCase)` cases of penile squamous cell carcinoma. The distribution by histologic subtype and grade (for all cases) is shown below.
+
+* __Distribution by histologic subype__
+```{r SubtypeDistribution}
+table.prop(DataCase$subtype)
+```
+
+* __Distirbution by histologic grade__
+```{r GradeDistribution}
+table.prop(DataCase$gradeCase)
+```
+
+***
+
+#### Association of 5mhC with histologic grade
+```{r GradeKW}
+# Spot-by-spot KW test
+kruskal.test(fhmc ~ grade, data = DataSpot)
+# Case-by-Case KW test
+kruskal.test(fhmcCase ~ gradeCase, data = DataCase)
+```
+
+```{r GradePlots}
+par(mfrow = c(1, 2))
+# Spot-by-spot boxplot
+with(DataSpot, boxplot(fhmc ~ grade, main = "Spot-by-Spot"))
+# Case-by-case boxplot
+with(DataCase, boxplot(fhmcCase ~ gradeCase, main = "Case-by-Case"))
+```
+
+***
+
+#### Association of 5hmC with histologic subtype
+```{r SubtypeKW}
+kruskal.test(fhmcCase ~ subtype, data = DataCase)
+```
+
+```{r SubtypePlots, fig.height = 15, fig.width = 9}
+par(mfrow = c(3, 1), cex = 1.1)
+with(DataCase, boxplot(fhmcCase ~ subtype, main = "Subtype"))
+with(DataCase, barplot(table(gradeCase, subtype), beside = TRUE))
+with(DataCase[DataCase$subtype == "Usual",], boxplot(fhmcCase ~ gradeCase, main = "Usual SCC"))
+
+```
+
